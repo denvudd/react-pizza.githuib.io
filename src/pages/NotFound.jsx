@@ -1,4 +1,4 @@
-import NotFoundBlock from "../components/NotFoundBlock/NotFoundBlock";
+import NotFoundBlock from "../components/UI/NotFoundBlock/NotFoundBlock";
 
 const NotFound = () => {
   return <NotFoundBlock />;

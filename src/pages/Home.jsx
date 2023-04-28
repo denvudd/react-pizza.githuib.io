@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useFetching } from "../hooks/useFetching";
 import {
   setCategory,
   setCurrentPage,
@@ -17,15 +16,16 @@ import PizzaItem from "../components/PizzaItem";
 import Skeleton from "../components/UI/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
 import { sortList } from "../components/Sort";
+import { categoriesList } from "../components/Categories";
 
 const Home = () => {
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
-  const categoryId = useSelector((state) => state.filterSlice.categoryId);
-  const sort = useSelector((state) => state.filterSlice.sort);
-  const currentPage = useSelector((state) => state.filterSlice.currentPage);
+  const { categoryId, sort, currentPage } = useSelector(
+    (state) => state.filterSlice
+  );
   const searchValue = useSelector((state) => state.filterSlice.searchQuery);
 
   const navigate = useNavigate();
@@ -112,16 +112,7 @@ const Home = () => {
 
       return false;
     })
-    .map((pizza) => (
-      <PizzaItem
-        title={pizza.title}
-        price={pizza.price}
-        imageUrl={pizza.imageUrl}
-        sizes={pizza.sizes}
-        types={pizza.types}
-        key={pizza.id}
-      />
-    ));
+    .map((pizza) => <PizzaItem key={pizza.id} {...pizza} />);
   const skeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
 
   return (
@@ -133,7 +124,7 @@ const Home = () => {
         />
         <Sort />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
+      <h2 className="content__title">{categoriesList[categoryId] === 'Все' ? 'Все пиццы' : categoriesList[categoryId]}</h2>
       <div className="content__items">{isLoading ? skeleton : content}</div>
       <Pagination changePage={changePage} />
     </div>

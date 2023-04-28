@@ -1,4 +1,4 @@
-import styles from "./NotFoundBlock.module.scss";
+import styles from './NotFoundBlock.module.scss';
 
 const NotFoundBlock = () => {
   return (

@@ -109,6 +109,8 @@ body {
     display: flex;
     align-items: center;
     cursor: pointer;
+    border: none;
+    background-color: transparent;
     @include noselect();
 
     span {
@@ -307,13 +309,14 @@ body {
   }
 
   &--empty {
-    margin: 0 auto;
+    margin: 60px auto;
     width: 560px;
     text-align: center;
 
     h2 {
-      font-size: 32px;
-      margin-bottom: 10px;
+      font-size: 36px;
+      margin-bottom: 15px;
+      font-weight: 700;
     }
 
     p {
