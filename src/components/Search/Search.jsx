@@ -16,6 +16,7 @@ const Search = () => {
   const handleClearClick = (e) => {
     e.preventDefault();
     dispatch(setSearch(""));
+    setValue("");
     inputRef.current.focus();
   };
 

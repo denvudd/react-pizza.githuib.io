@@ -25,8 +25,6 @@ const PizzaItem = ({ id, title, price, imageUrl, sizes, types }) => {
     dispatch(addProduct(product));
   };
 
-  console.log(activeSize);
-
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">

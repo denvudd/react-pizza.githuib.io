@@ -41,6 +41,7 @@ const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
         <button
           onClick={onClickDecrement}
           className="button button--outline button--circle cart__item-count-minus"
+          disabled={count === 0}
         >
           <svg
             width="10"

@@ -8,21 +8,21 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import qs from "qs";
-import axios from "axios";
 
 import Sort from "../components/Sort";
 import Categories from "../components/Categories";
 import PizzaItem from "../components/PizzaItem";
-import Skeleton from "../components/UI/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
+import Skeleton from "../components/UI/Skeleton";
+import NoProducts from "../components/UI/NoProducts";
+
 import { sortList } from "../components/Sort";
 import { categoriesList } from "../components/Categories";
+import { fetchProducts } from "../redux/slices/productsSlice";
 
 const Home = () => {
-  const [pizzas, setPizzas] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   const dispatch = useDispatch();
+  const { products, status } = useSelector((state) => state.productsSlice);
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filterSlice
   );
@@ -32,7 +32,7 @@ const Home = () => {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const fetchPizzas = () => {
+  const getProducts = async () => {
     const categoryQueryParam = categoryId > 0 ? `&category=${categoryId}` : "";
     const sortQueryParam = `&sortBy=${sort.sortProperty.replace(
       "-",
@@ -41,17 +41,20 @@ const Home = () => {
     const searchQueryParam = searchValue ? `&search=${searchValue}` : "";
     const apiUrl = `https://6448008250c253374435bb85.mockapi.io/pizzas?page=${currentPage}&limit=8${categoryQueryParam}${sortQueryParam}${searchQueryParam}`;
 
-    setIsLoading(true);
-    axios.get(apiUrl).then((res) => {
-      setPizzas(res.data);
-      setIsLoading(false);
-    });
+    dispatch(
+      fetchProducts({
+        categoryQueryParam,
+        sortQueryParam,
+        searchQueryParam,
+        currentPage,
+      })
+    );
   };
 
   // fetch when the filters change
   useEffect(() => {
     if (!isSearch.current) {
-      fetchPizzas();
+      getProducts();
     }
 
     isSearch.current = false;
@@ -104,15 +107,15 @@ const Home = () => {
     dispatch(setCurrentPage(page));
   };
 
-  const content = pizzas
-    .filter((pizza) => {
-      if (pizza.title.toLowerCase().includes(searchValue.toLowerCase())) {
+  const content = products
+    .filter((product) => {
+      if (product.title.toLowerCase().includes(searchValue.toLowerCase())) {
         return true;
       }
 
       return false;
     })
-    .map((pizza) => <PizzaItem key={pizza.id} {...pizza} />);
+    .map((product) => <PizzaItem key={product.id} {...product} />);
   const skeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
 
   return (
@@ -124,8 +127,18 @@ const Home = () => {
         />
         <Sort />
       </div>
-      <h2 className="content__title">{categoriesList[categoryId] === 'Все' ? 'Все пиццы' : categoriesList[categoryId]}</h2>
-      <div className="content__items">{isLoading ? skeleton : content}</div>
+      <h2 className="content__title">
+        {categoriesList[categoryId] === "Все"
+          ? "Все пиццы"
+          : categoriesList[categoryId]}
+      </h2>
+      {status === "failure" ? (
+        <NoProducts />
+      ) : (
+        <div className="content__items">
+          {status === "loading" ? skeleton : content}
+        </div>
+      )}
       <Pagination changePage={changePage} />
     </div>
   );
