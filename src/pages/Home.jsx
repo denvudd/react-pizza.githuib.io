@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  filterSelector,
   setCategory,
   setCurrentPage,
   setFilters,
@@ -18,33 +19,31 @@ import NoProducts from "../components/UI/NoProducts";
 
 import { sortList } from "../components/Sort";
 import { categoriesList } from "../components/Categories";
-import { fetchProducts } from "../redux/slices/productsSlice";
+import { fetchProducts, productsSelector } from "../redux/slices/productsSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { products, status } = useSelector((state) => state.productsSlice);
-  const { categoryId, sort, currentPage } = useSelector(
-    (state) => state.filterSlice
-  );
-  const searchValue = useSelector((state) => state.filterSlice.searchQuery);
+  const { products, status } = useSelector(productsSelector);
+  const { categoryId, sort, currentPage, searchQuery } =
+    useSelector(filterSelector);
 
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
   const getProducts = async () => {
-    const categoryQueryParam = categoryId > 0 ? `&category=${categoryId}` : "";
-    const sortQueryParam = `&sortBy=${sort.sortProperty.replace(
-      "-",
-      ""
-    )}&order=${sort.sortProperty.includes("-") ? "asc" : "desc"}`;
-    const searchQueryParam = searchValue ? `&search=${searchValue}` : "";
-    const apiUrl = `https://6448008250c253374435bb85.mockapi.io/pizzas?page=${currentPage}&limit=8${categoryQueryParam}${sortQueryParam}${searchQueryParam}`;
+    const categoryQueryParam = categoryId > 0 ? `${categoryId}` : null;
+    const sortQueryParam = `${sort.sortProperty.replace("-", "")}`;
+    const orderQueryParam = `${
+      sort.sortProperty.includes("-") ? "asc" : "desc"
+    }`;
+    const searchQueryParam = searchQuery ? `${searchQuery}` : null;
 
     dispatch(
       fetchProducts({
         categoryQueryParam,
         sortQueryParam,
+        orderQueryParam,
         searchQueryParam,
         currentPage,
       })
@@ -59,7 +58,7 @@ const Home = () => {
 
     isSearch.current = false;
     window.scrollTo(0, 0);
-  }, [categoryId, sort, searchValue, currentPage]);
+  }, [categoryId, sort, searchQuery, currentPage]);
 
   // if first render, then check the URL parameters and dispatch them in the store
   useEffect(() => {
@@ -89,7 +88,7 @@ const Home = () => {
         sort: sort.sortProperty,
         categoryId: categoryId,
         currentPage: currentPage,
-        search: searchValue,
+        search: searchQuery,
       });
 
       // update url
@@ -97,7 +96,7 @@ const Home = () => {
     }
 
     isMounted.current = true;
-  }, [categoryId, sort, searchValue, currentPage]);
+  }, [categoryId, sort, searchQuery, currentPage]);
 
   const changeCategory = (id) => {
     dispatch(setCategory(id));
@@ -109,7 +108,7 @@ const Home = () => {
 
   const content = products
     .filter((product) => {
-      if (product.title.toLowerCase().includes(searchValue.toLowerCase())) {
+      if (product.title.toLowerCase().includes(searchQuery.toLowerCase())) {
         return true;
       }
 
@@ -139,6 +138,7 @@ const Home = () => {
           {status === "loading" ? skeleton : content}
         </div>
       )}
+      {products.length === 0 && <NoProducts />}
       <Pagination changePage={changePage} />
     </div>
   );
