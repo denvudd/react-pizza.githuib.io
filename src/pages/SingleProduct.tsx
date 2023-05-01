@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct, cartProductByIdSelector } from "../redux/slices/cartSlice";
@@ -10,8 +10,28 @@ import ButtonAdd from "../components/UI/ButtonAdd";
 import { categoriesList } from "../components/Categories";
 import NotFound from "./NotFound";
 
-const SingleProduct = () => {
-  const [product, setProduct] = useState({});
+interface IProduct {
+  imageUrl: string;
+  title: string;
+  ingredients: string;
+  price: number;
+  rating: number;
+  category: number;
+  sizes: number[];
+  types: number[];
+}
+
+const SingleProduct: React.FC = () => {
+  const [product, setProduct] = useState<IProduct>({
+    imageUrl: "",
+    title: "",
+    ingredients: "",
+    price: 0,
+    rating: 0,
+    category: 0,
+    sizes: [],
+    types: [],
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setIsError] = useState(false);
   const { id } = useParams();
@@ -29,7 +49,7 @@ const SingleProduct = () => {
   const getProduct = async () => {
     setIsLoading(true);
     try {
-      const { data } = await axios.get(
+      const { data } = await axios.get<IProduct>(
         `https://6448008250c253374435bb85.mockapi.io/pizzas/${id}`
       );
       setProduct(data);
@@ -57,6 +77,12 @@ const SingleProduct = () => {
     dispatch(addProduct(productOnAdd));
   };
 
+  if (!product) {
+    return (
+      <div className="single-loading">Загрузка, подождите пожалуйста... 🍕</div>
+    );
+  }
+
   return (
     <div className="container">
       {isLoading && !error ? (
@@ -79,7 +105,7 @@ const SingleProduct = () => {
               <div className="product-single__category">
                 Категория:{" "}
                 <span>
-                  {categoriesList[product.categoryId] === "Все"
+                  {categoriesList[product.category] === "Все"
                     ? "Все пиццы"
                     : categoriesList[product.category]}
                 </span>
@@ -112,7 +138,7 @@ const SingleProduct = () => {
             <div className="product-single__ingredients">
               {product.ingredients}
             </div>
-            <div className="pizza-block__bottom">
+            <div className="product-single__bottom">
               <div className="product-single__price">от {product.price} ₴</div>
               <ButtonAdd
                 onClickAdd={onClickAdd}

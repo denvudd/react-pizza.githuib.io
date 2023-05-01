@@ -13,7 +13,7 @@ import qs from "qs";
 import Sort from "../components/Sort";
 import Categories from "../components/Categories";
 import PizzaItem from "../components/PizzaItem";
-import Pagination from "../components/Pagination/Pagination";
+import Pagination from "../components/UI/Pagination/Pagination";
 import Skeleton from "../components/UI/Skeleton";
 import NoProducts from "../components/UI/NoProducts";
 

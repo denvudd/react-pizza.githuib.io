@@ -17,6 +17,14 @@
     border: 1px solid rgba(0, 0, 0, 0.2);
     width: 400px;
   }
+
+  @media (max-width: 970px) {
+    width: 100%;
+
+    &:focus {
+      width: 100%;
+    }
+  }
 }
 
 .searchIcon {

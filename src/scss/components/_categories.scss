@@ -4,13 +4,13 @@
   overflow: hidden;
 
   @media (max-width: 1260px) {
-    width: 100%;
+    width: 80%;
     overflow: auto;
-    margin-right: 30px;
   }
 
   @media (max-width: 820px) {
     flex-direction: column;
+    width: 100%;
     margin-right: 0px;
   }
 
