@@ -1,4 +1,5 @@
-import styles from './NotFoundBlock.module.scss';
+import { Link } from "react-router-dom";
+import styles from "./NotFoundBlock.module.scss";
 
 const NotFoundBlock = () => {
   return (
@@ -8,7 +9,14 @@ const NotFoundBlock = () => {
         <br />
         Ничего не найдено
       </h1>
-      <p className={styles.description}>К сожалению данная страница не найдена</p>
+      <p className={styles.description}>
+        К сожалению данная страница не найдена
+      </p>
+      <div className={styles.buttonWrapper}>
+        <Link to="/" className="button button--outline">
+          Вернуться на главную страницу
+        </Link>
+      </div>
     </div>
   );
 };
