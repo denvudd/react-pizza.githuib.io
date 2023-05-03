@@ -1,15 +1,35 @@
 import { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, cartProductByIdSelector } from "../redux/slices/cartSlice";
+import {
+  ICartItem,
+  addProduct,
+  cartProductByIdSelector,
+} from "../redux/slices/cartSlice";
 
 import { Link } from "react-router-dom";
 
 import ButtonAdd from "./UI/ButtonAdd";
 
-const PizzaItem = ({ id, title, price, imageUrl, sizes, types }) => {
-  const [activeType, setActiveType] = useState(0);
-  const [activeSize, setActiveSize] = useState(0);
+interface IPizzaItemProps {
+  id: string;
+  title: string;
+  imageUrl: string;
+  price: number;
+  sizes: number[];
+  types: number[];
+}
+
+const PizzaItem: React.FC<IPizzaItemProps> = ({
+  id,
+  title,
+  price,
+  imageUrl,
+  sizes,
+  types,
+}) => {
+  const [activeType, setActiveType] = useState<number>(0);
+  const [activeSize, setActiveSize] = useState<number>(0);
 
   const dispatch = useDispatch();
   const cartProduct = useSelector(cartProductByIdSelector(id));
@@ -18,13 +38,14 @@ const PizzaItem = ({ id, title, price, imageUrl, sizes, types }) => {
   const typeNames = ["тонкое", "традиционное"];
 
   const onClickAdd = () => {
-    const product = {
+    const product: ICartItem = {
       id: id,
       title: title,
       price: price,
       imageUrl: imageUrl,
       type: typeNames[activeType],
       size: sizes[activeSize],
+      count: 0, // by default
     };
 
     dispatch(addProduct(product));
@@ -34,10 +55,17 @@ const PizzaItem = ({ id, title, price, imageUrl, sizes, types }) => {
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
         <Link to={`/product/${id}`}>
-          <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+          <img
+            className="pizza-block__image"
+            src={imageUrl}
+            alt="Pizza"
+            title={`Пицца ${title}`}
+          />
         </Link>
         <Link to={`/product/${id}`}>
-          <h4 className="pizza-block__title">{title}</h4>
+          <h4 className="pizza-block__title" title={`Пицца ${title}`}>
+            {title}
+          </h4>
         </Link>
         <div className="pizza-block__selector">
           <ul>

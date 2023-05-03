@@ -1,4 +1,12 @@
-export const categoriesList = [
+import React, {memo} from "react";
+import useWhyDidYouUpdate  from "ahooks/lib/useWhyDidYouUpdate";
+
+interface ICategoriesProps {
+  categoryId: number;
+  changeCategory: (index: number) => void;
+}
+
+export const categoriesList: string[] = [
   "Все",
   "Мясные",
   "Вегетарианская",
@@ -7,7 +15,7 @@ export const categoriesList = [
   "Закрытые",
 ];
 
-const Categories = ({ categoryId, changeCategory }) => {
+const Categories: React.FC<ICategoriesProps> = memo(({ categoryId, changeCategory }) => {
   return (
     <div className="categories">
       <ul>
@@ -23,6 +31,6 @@ const Categories = ({ categoryId, changeCategory }) => {
       </ul>
     </div>
   );
-};
+})
 
 export default Categories;

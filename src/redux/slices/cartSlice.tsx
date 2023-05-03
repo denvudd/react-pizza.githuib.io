@@ -1,7 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { calcTotalPrice } from "../../utils/calcTotalPrice";
+import { RootState } from "../store";
 
-const initialState = {
+export interface ICartItem {
+  id: string;
+  title: string;
+  imageUrl: string;
+  price: number;
+  type: string;
+  size: number;
+  count: number;
+}
+
+interface ICartSliceState {
+  totalPrice: number;
+  products: ICartItem[];
+}
+
+const initialState: ICartSliceState = {
   totalPrice: 0,
   products: [],
 };
@@ -10,12 +26,12 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addProduct(state, action) {
+    addProduct(state, action: PayloadAction<ICartItem>) {
       const findItem = state.products.find(
         (product) => product.id === action.payload.id
       );
 
-      // if product is already in cart then count++ else just add a new product
+      // if product is already in cart then count++ else just add a new product with count 1
       if (findItem) {
         findItem.count++;
       } else {
@@ -25,9 +41,9 @@ const cartSlice = createSlice({
       // calc the total price taking into account the added count
       state.totalPrice = calcTotalPrice(state.products);
     },
-    incrementCountProduct(state, action) {
+    incrementCountProduct(state, action: PayloadAction<string>) {
       const findItem = state.products.find(
-        (product) => product.id === action.payload.id
+        (product) => product.id === action.payload
       );
 
       if (findItem) {
@@ -36,9 +52,9 @@ const cartSlice = createSlice({
 
       state.totalPrice = calcTotalPrice(state.products);
     },
-    decrementCountProduct(state, action) {
+    decrementCountProduct(state, action: PayloadAction<string>) {
       const findItem = state.products.find(
-        (product) => product.id === action.payload.id
+        (product) => product.id === action.payload
       );
 
       if (findItem) {
@@ -47,14 +63,14 @@ const cartSlice = createSlice({
 
       state.totalPrice = calcTotalPrice(state.products);
     },
-    removeProduct(state, action) {
+    removeProduct(state, action: PayloadAction<string>) {
       state.products = state.products.filter(
         (product) => product.id !== action.payload
       );
 
       state.totalPrice = calcTotalPrice(state.products);
     },
-    clearProducts(state, action) {
+    clearProducts(state) {
       state.products = [];
       state.totalPrice = 0;
     },
@@ -62,8 +78,8 @@ const cartSlice = createSlice({
 });
 
 // Selectors
-export const cartSelector = (state) => state.cartSlice;
-export const cartProductByIdSelector = (id) => (state) =>
+export const cartSelector = (state: RootState) => state.cartSlice;
+export const cartProductByIdSelector = (id: string) => (state: RootState) =>
   state.cartSlice.products.find((product) => product.id === id);
 
 export const {

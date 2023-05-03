@@ -1,24 +1,34 @@
-import { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setSort, sortSelector } from "../redux/slices/filterSlice";
+import React, { useState, useRef, useEffect, memo } from "react";
+import { useDispatch } from "react-redux";
+
+import { setSort } from "../redux/slices/filterSlice";
+import { SortPropertyEnum } from "../redux/slices/filterSlice";
 
 interface ISortList {
   sortName: string;
-  sortProperty: string;
+  sortProperty: SortPropertyEnum;
+}
+
+type DropdownClickPath = MouseEvent & {
+  path: Node[];
+};
+
+interface ISortProps {
+  sort: ISortList;
 }
 
 export const sortList: ISortList[] = [
-  { sortName: "популярности (+)", sortProperty: "rating" },
-  { sortName: "популярности (-)", sortProperty: "-rating" },
-  { sortName: "цене (+)", sortProperty: "price" },
-  { sortName: "цене (-)", sortProperty: "-price" },
-  { sortName: "алфавиту (+)", sortProperty: "title" },
-  { sortName: "алфавиту (-)", sortProperty: "-title" },
+  { sortName: "популярности (+)", sortProperty: SortPropertyEnum.RATING_DESC },
+  { sortName: "популярности (-)", sortProperty: SortPropertyEnum.RATING_ASC },
+  { sortName: "цене (+)", sortProperty: SortPropertyEnum.PRICE_DESC },
+  { sortName: "цене (-)", sortProperty: SortPropertyEnum.PRICE_ASC },
+  { sortName: "алфавиту (+)", sortProperty: SortPropertyEnum.TITLE_DESC },
+  { sortName: "алфавиту (-)", sortProperty: SortPropertyEnum.TITLE_ASC },
 ];
 
-const Sort = () => {
+const Sort: React.FC<ISortProps> = memo(({ sort }) => {
   const dispatch = useDispatch();
-  const { sortProperty, sortName }: ISortList = useSelector(sortSelector);
+  const { sortProperty, sortName }: ISortList = sort;
   const sortRef = useRef<HTMLDivElement>(null);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -28,8 +38,11 @@ const Sort = () => {
     setIsOpen(false);
   };
 
-  const handleClickOutside = (e: any) => {
-    if (!e.composedPath().includes(sortRef.current)) {
+  const handleClickOutside = (event: MouseEvent) => {
+    const _event = event as DropdownClickPath;
+
+    // if click outside of dropdown
+    if (sortRef.current && !_event.composedPath().includes(sortRef.current)) {
       setIsOpen(false);
     }
   };
@@ -81,6 +94,6 @@ const Sort = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sort;

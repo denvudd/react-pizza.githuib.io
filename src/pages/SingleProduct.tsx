@@ -11,33 +11,37 @@ import { categoriesList } from "../components/Categories";
 import NotFound from "./NotFound";
 
 interface IProduct {
+  id: string;
   imageUrl: string;
   title: string;
   ingredients: string;
   price: number;
   rating: number;
   category: number;
+  count: number;
   sizes: number[];
   types: number[];
 }
 
 const SingleProduct: React.FC = () => {
+  const { id } = useParams();
   const [product, setProduct] = useState<IProduct>({
+    id: id || "",
     imageUrl: "",
     title: "",
     ingredients: "",
     price: 0,
     rating: 0,
     category: 0,
+    count: 0,
     sizes: [],
     types: [],
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setIsError] = useState(false);
-  const { id } = useParams();
 
   const dispatch = useDispatch();
-  const cartProduct = useSelector(cartProductByIdSelector(id));
+  const cartProduct = useSelector(cartProductByIdSelector(id || ""));
 
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
@@ -66,12 +70,13 @@ const SingleProduct: React.FC = () => {
 
   const onClickAdd = () => {
     const productOnAdd = {
-      id: id,
+      id: id || "",
       title: product.title,
       price: product.price,
       imageUrl: product.imageUrl,
       type: typeNames[activeType],
       size: product.sizes[activeSize],
+      count: product.count,
     };
 
     dispatch(addProduct(productOnAdd));

@@ -1,6 +1,12 @@
 import React from "react";
 
-const ButtonAdd = ({ onClickAdd, addedCount, buttonText }) => {
+interface IButtonProps {
+  onClickAdd: () => void;
+  addedCount: number;
+  buttonText: string;
+}
+
+const ButtonAdd: React.FC<IButtonProps> = ({ onClickAdd, addedCount, buttonText }) => {
   return (
     <button onClick={onClickAdd} className="button button--outline button--add">
       <svg

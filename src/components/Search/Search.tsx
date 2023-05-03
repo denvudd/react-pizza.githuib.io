@@ -1,5 +1,7 @@
+import React from "react";
 import { useState, useRef } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
+
 import { setSearch } from "../../redux/slices/filterSlice";
 import { useDispatch } from "react-redux";
 
@@ -11,20 +13,20 @@ import styles from "./Search.module.scss";
 const Search = () => {
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleClearClick = (e) => {
+  const handleClearClick = (e: React.MouseEvent<HTMLImageElement>): void => {
     e.preventDefault();
     dispatch(setSearch(""));
     setValue("");
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
-  const updateSearchValue = useDebounce((value) => {
+  const updateSearchValue = useDebounce((value: string) => {
     dispatch(setSearch(value));
   }, 250);
 
-  const onChangeSearch = (e) => {
+  const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     updateSearchValue(e.target.value);
   };

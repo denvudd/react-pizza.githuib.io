@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useEffect, useRef, useCallback } from "react";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../redux/store";
 import {
   filterSelector,
   setCategory,
@@ -19,63 +21,62 @@ import NoProducts from "../components/UI/NoProducts";
 
 import { sortList } from "../components/Sort";
 import { categoriesList } from "../components/Categories";
-import { fetchProducts, productsSelector } from "../redux/slices/productsSlice";
+import {
+  IFetchProductsParams,
+  fetchProducts,
+  productsSelector,
+} from "../redux/slices/productsSlice";
 
-const Home = () => {
-  const dispatch = useDispatch();
+const Home: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { products, status } = useSelector(productsSelector);
-  const { categoryId, sort, currentPage, searchQuery } =
-    useSelector(filterSelector);
+  const { category, sort, page, search } = useSelector(filterSelector);
 
   const navigate = useNavigate();
-  const isSearch = useRef(false);
   const isMounted = useRef(false);
 
   const getProducts = async () => {
-    const categoryQueryParam = categoryId > 0 ? `${categoryId}` : null;
-    const sortQueryParam = `${sort.sortProperty.replace("-", "")}`;
-    const orderQueryParam = `${
-      sort.sortProperty.includes("-") ? "asc" : "desc"
-    }`;
-    const searchQueryParam = searchQuery ? `${searchQuery}` : null;
+    const categoryParam = category > 0 ? `${category}` : "";
+    const sortByParam = `${sort.sortProperty.replace("-", "")}`;
+    const orderParam = `${sort.sortProperty.includes("-") ? "asc" : "desc"}`;
+    const searchParam = search ? `${search}` : "";
 
     dispatch(
       fetchProducts({
-        categoryQueryParam,
-        sortQueryParam,
-        orderQueryParam,
-        searchQueryParam,
-        currentPage,
+        category: categoryParam,
+        sortBy: sortByParam,
+        order: orderParam,
+        search: searchParam,
+        page: page.toString(),
       })
     );
   };
 
   // fetch when the filters change
   useEffect(() => {
-    if (!isSearch.current) {
-      getProducts();
-    }
+    getProducts();
 
-    isSearch.current = false;
     window.scrollTo(0, 0);
-  }, [categoryId, sort, searchQuery, currentPage]);
+  }, [category, sort, search, page]);
 
   // if first render, then check the URL parameters and dispatch them in the store
   useEffect(() => {
     // check if there are parameters in the URL
     if (window.location.search) {
       // parse the parameters from the URL and extract the sort parameter
-      const params = qs.parse(window.location.search.substring(1));
-      const sort = sortList.find((obj) => obj.sortProperty === params.sort);
+      const params = qs.parse(
+        window.location.search.substring(1)
+      ) as unknown as IFetchProductsParams;
+      const sort = sortList.find((obj) => obj.sortProperty === params.sortBy);
 
       dispatch(
         setFilters({
-          ...params,
-          sort,
+          search: params.search,
+          category: Number(params.category),
+          page: Number(params.page),
+          sort: sort || sortList[0],
         })
       );
-
-      isSearch.current = true;
     }
   }, []);
 
@@ -85,10 +86,10 @@ const Home = () => {
     if (isMounted.current) {
       // construct a query string based on the current filter parameters
       const queryString = qs.stringify({
-        sort: sort.sortProperty,
-        categoryId: categoryId,
-        currentPage: currentPage,
-        search: searchQuery,
+        sortBy: sort.sortProperty,
+        category: category > 0 ? category : null,
+        page: page,
+        search: search,
       });
 
       // update url
@@ -96,40 +97,41 @@ const Home = () => {
     }
 
     isMounted.current = true;
-  }, [categoryId, sort, searchQuery, currentPage]);
+  }, [category, sort, search, page]);
 
-  const changeCategory = (id) => {
+  const changeCategory = useCallback((id: number) => {
     dispatch(setCategory(id));
-  };
+  }, []);
 
-  const changePage = (page) => {
+  const changePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
 
   const content = products
-    .filter((product) => {
-      if (product.title.toLowerCase().includes(searchQuery.toLowerCase())) {
+    .filter((product: any) => {
+      if (product.title.toLowerCase().includes(search.toLowerCase())) {
         return true;
       }
 
       return false;
     })
-    .map((product) => <PizzaItem key={product.id} {...product} />);
+    .map((product: any) => <PizzaItem key={product.id} {...product} />);
   const skeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
+  
 
   return (
     <div className="container">
       <div className="content__top">
         <Categories
-          categoryId={categoryId}
-          changeCategory={(id) => changeCategory(id)}
+          categoryId={category}
+          changeCategory={changeCategory}
         />
-        <Sort />
+        <Sort sort={sort}/>
       </div>
       <h2 className="content__title">
-        {categoriesList[categoryId] === "Все"
+        {categoriesList[category] === "Все"
           ? "Все пиццы"
-          : categoriesList[categoryId]}
+          : categoriesList[category]}
       </h2>
       {status === "failure" ? (
         <NoProducts />
@@ -139,7 +141,7 @@ const Home = () => {
         </div>
       )}
       {products.length === 0 && <NoProducts />}
-      <Pagination changePage={changePage} />
+      <Pagination changePage={changePage} page={page} />
     </div>
   );
 };
