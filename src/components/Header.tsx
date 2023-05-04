@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { cartSelector } from "../redux/slices/cartSlice";
+import { cartSelector } from "../redux/cart/selectors";
 import { Link, useLocation } from "react-router-dom";
 
 import logo from "../assets/img/pizza-logo.svg";

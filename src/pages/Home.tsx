@@ -1,13 +1,17 @@
 import React from "react";
 import { useEffect, useRef, useCallback } from "react";
+
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../redux/store";
 import {
-  filterSelector,
   setCategory,
   setCurrentPage,
   setFilters,
-} from "../redux/slices/filterSlice";
+} from "../redux/filters/slice";
+import { filterSelector } from "../redux/filters/selectors";
+import { fetchProducts } from "../redux/products/asyncActions";
+import { IFetchProductsParams } from "../redux/products/types";
+import { productsSelector } from "../redux/products/selectors";
 
 import { useNavigate } from "react-router-dom";
 import qs from "qs";
@@ -21,11 +25,7 @@ import NoProducts from "../components/UI/NoProducts";
 
 import { sortList } from "../components/Sort";
 import { categoriesList } from "../components/Categories";
-import {
-  IFetchProductsParams,
-  fetchProducts,
-  productsSelector,
-} from "../redux/slices/productsSlice";
+import { Helmet } from "react-helmet";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -117,16 +117,19 @@ const Home: React.FC = () => {
     })
     .map((product: any) => <PizzaItem key={product.id} {...product} />);
   const skeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
-  
 
   return (
     <div className="container">
+      <Helmet>
+        <title>{`React Pizza: ${
+          categoriesList[category] === "Все"
+            ? "Все пиццы"
+            : categoriesList[category]
+        }`}</title>
+      </Helmet>
       <div className="content__top">
-        <Categories
-          categoryId={category}
-          changeCategory={changeCategory}
-        />
-        <Sort sort={sort}/>
+        <Categories categoryId={category} changeCategory={changeCategory} />
+        <Sort sort={sort} />
       </div>
       <h2 className="content__title">
         {categoriesList[category] === "Все"

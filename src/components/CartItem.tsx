@@ -4,7 +4,7 @@ import {
   incrementCountProduct,
   decrementCountProduct,
   removeProduct,
-} from "../redux/slices/cartSlice";
+} from "../redux/cart/slice";
 import clsx from "clsx";
 
 interface ICartItemProps {

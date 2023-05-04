@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useRef } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
 
-import { setSearch } from "../../redux/slices/filterSlice";
+import { setSearch } from "../../redux/filters/slice";
 import { useDispatch } from "react-redux";
 
 import closeIcon from "../../assets/img/close_icon.svg";

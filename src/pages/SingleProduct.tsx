@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, cartProductByIdSelector } from "../redux/slices/cartSlice";
+import { addProduct } from "../redux/cart/slice";
+import { cartProductByIdSelector } from "../redux/cart/selectors";
 
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 import ButtonAdd from "../components/UI/ButtonAdd";
-import { categoriesList } from "../components/Categories";
 import NotFound from "./NotFound";
+
+import { categoriesList } from "../components/Categories";
 
 interface IProduct {
   id: string;
@@ -90,6 +93,9 @@ const SingleProduct: React.FC = () => {
 
   return (
     <div className="container">
+      <Helmet>
+        <title>{`React Pizza: Пицца ${product.title}`}</title>
+      </Helmet>
       {isLoading && !error ? (
         <div className="single-loading">
           Загрузка, подождите пожалуйста... 🍕
