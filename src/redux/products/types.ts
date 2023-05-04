@@ -5,7 +5,7 @@ export enum ProductStatus {
 }
 
 export interface IFetchProductsParams {
-  category: string;
+  category: string | null;
   sortBy: string;
   order: string;
   search: string;

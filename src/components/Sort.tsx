@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, memo } from "react";
+import { useClickOutside } from "../hooks/useClickOutside";
 import { useDispatch } from "react-redux";
 
 import { setSort } from "../redux/filters/slice";
@@ -8,11 +9,6 @@ interface ISortList {
   sortName: string;
   sortProperty: SortPropertyEnum;
 }
-
-type DropdownClickPath = MouseEvent & {
-  path: Node[];
-};
-
 interface ISortProps {
   sort: ISortList;
 }
@@ -38,23 +34,10 @@ const Sort: React.FC<ISortProps> = memo(({ sort }) => {
     setIsOpen(false);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    const _event = event as DropdownClickPath;
-
-    // if click outside of dropdown
-    if (sortRef.current && !_event.composedPath().includes(sortRef.current)) {
-      setIsOpen(false);
-    }
-  };
-
-  // close dropdown when click outside
-  useEffect(() => {
-    document.body.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.body.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+  // when click outside of dropdown
+  useClickOutside(sortRef, () => {
+    setIsOpen(false);
+  });
 
   return (
     <div ref={sortRef} className="sort">

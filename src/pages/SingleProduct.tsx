@@ -12,6 +12,7 @@ import ButtonAdd from "../components/UI/ButtonAdd";
 import NotFound from "./NotFound";
 
 import { categoriesList } from "../components/Categories";
+import SingleProductLoader from "../components/UI/SingleProductLoader";
 
 interface IProduct {
   id: string;
@@ -97,9 +98,7 @@ const SingleProduct: React.FC = () => {
         <title>{`React Pizza: Пицца ${product.title}`}</title>
       </Helmet>
       {isLoading && !error ? (
-        <div className="single-loading">
-          Загрузка, подождите пожалуйста... 🍕
-        </div>
+        <SingleProductLoader/>
       ) : error ? (
         <NotFound />
       ) : (

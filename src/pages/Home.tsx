@@ -36,7 +36,7 @@ const Home: React.FC = () => {
   const isMounted = useRef(false);
 
   const getProducts = async () => {
-    const categoryParam = category > 0 ? `${category}` : "";
+    const categoryParam = category > 0 ? `${category}` : null;
     const sortByParam = `${sort.sortProperty.replace("-", "")}`;
     const orderParam = `${sort.sortProperty.includes("-") ? "asc" : "desc"}`;
     const searchParam = search ? `${search}` : "";
