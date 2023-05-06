@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../redux/cart/slice";
 import { ICartItem } from "../redux/cart/types";
-import { cartProductByIdSelector } from "../redux/cart/selectors";
+import { cartProductCountSelector } from "../redux/cart/selectors";
 
 import { Link } from "react-router-dom";
 
@@ -30,9 +30,9 @@ const PizzaItem: React.FC<IPizzaItemProps> = ({
   const [activeSize, setActiveSize] = useState<number>(0);
 
   const dispatch = useDispatch();
-  const cartProduct = useSelector(cartProductByIdSelector(id));
+  const cartProductCount = useSelector(cartProductCountSelector(id));
 
-  const addedCount = cartProduct ? cartProduct.count : 0;
+  const addedCount = cartProductCount;
   const typeNames = ["тонкое", "традиционное"];
 
   const onClickAdd = () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../redux/cart/slice";
-import { cartProductByIdSelector } from "../redux/cart/selectors";
+import { cartProductCountSelector } from "../redux/cart/selectors";
 
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -45,13 +45,13 @@ const SingleProduct: React.FC = () => {
   const [error, setIsError] = useState(false);
 
   const dispatch = useDispatch();
-  const cartProduct = useSelector(cartProductByIdSelector(id || ""));
+  const cartProductCount = useSelector(cartProductCountSelector(id || ""));
 
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
 
   const typeNames = ["тонкое", "традиционное"];
-  const addedCount = cartProduct ? cartProduct.count : 0;
+  const addedCount = cartProductCount;
   const ratingStars = "★".repeat(product.rating);
 
   const getProduct = async () => {
@@ -98,7 +98,7 @@ const SingleProduct: React.FC = () => {
         <title>{`React Pizza: Пицца ${product.title}`}</title>
       </Helmet>
       {isLoading && !error ? (
-        <SingleProductLoader/>
+        <SingleProductLoader />
       ) : error ? (
         <NotFound />
       ) : (

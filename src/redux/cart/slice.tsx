@@ -1,26 +1,29 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { calcTotalPrice } from "../../utils/calcTotalPrice";
 import { ICartSliceState, ICartItem } from "./types";
+import isEqual from "lodash.isequal";
 
 const initialState: ICartSliceState = {
   totalPrice: 0,
   products: [],
 };
 
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addProduct(state, action: PayloadAction<ICartItem>) {
-      const findItem = state.products.find(
-        (product) => product.id === action.payload.id
+      const idAdded = `${action.payload.id}-${action.payload.size}-${action.payload.type}-${action.payload.title}`; // for products with different params (size/type)
+      const foundProductIndex = state.products.findIndex(
+        (product) => product.idAdded === idAdded
       );
 
-      // if product is already in cart then count++ else just add a new product with count 1
-      if (findItem) {
-        findItem.count++;
+      // IF product is already in cart AND has similar parameters THEN count++ ELSE just add a new product with count 1
+      if (foundProductIndex !== -1) {
+        state.products[foundProductIndex].count++;
       } else {
-        state.products.push({ ...action.payload, count: 1 });
+        state.products.push({ ...action.payload, count: 1, idAdded });
       }
 
       // calc the total price taking into account the added count
@@ -28,7 +31,7 @@ const cartSlice = createSlice({
     },
     incrementCountProduct(state, action: PayloadAction<string>) {
       const findItem = state.products.find(
-        (product) => product.id === action.payload
+        (product) => product.idAdded === action.payload
       );
 
       if (findItem) {
@@ -39,7 +42,7 @@ const cartSlice = createSlice({
     },
     decrementCountProduct(state, action: PayloadAction<string>) {
       const findItem = state.products.find(
-        (product) => product.id === action.payload
+        (product) => product.idAdded === action.payload
       );
 
       if (findItem) {
@@ -49,9 +52,7 @@ const cartSlice = createSlice({
       state.totalPrice = calcTotalPrice(state.products);
     },
     removeProduct(state, action: PayloadAction<string>) {
-      state.products = state.products.filter(
-        (product) => product.id !== action.payload
-      );
+      state.products = state.products.filter((product) => product.idAdded !== action.payload);
 
       state.totalPrice = calcTotalPrice(state.products);
     },
@@ -61,7 +62,6 @@ const cartSlice = createSlice({
     },
   },
 });
-
 
 export const {
   addProduct,

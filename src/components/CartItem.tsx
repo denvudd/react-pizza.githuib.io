@@ -7,18 +7,20 @@ import {
 } from "../redux/cart/slice";
 import clsx from "clsx";
 
-interface ICartItemProps {
+export interface ICartItemProps {
   id: string;
-  imageUrl: string;
+  idAdded: string;
   title: string;
-  type: string;
-  count: number;
+  imageUrl: string;
   price: number;
+  type: string;
   size: number;
+  count: number;
 }
 
 const CartItem: React.FC<ICartItemProps> = ({
   id,
+  idAdded,
   title,
   type,
   size,
@@ -29,15 +31,15 @@ const CartItem: React.FC<ICartItemProps> = ({
   const dispatch = useDispatch();
 
   const onClickIncrement = () => {
-    dispatch(incrementCountProduct(id));
+    dispatch(incrementCountProduct(idAdded));
   };
 
   const onClickDecrement = () => {
-    dispatch(decrementCountProduct(id));
+    dispatch(decrementCountProduct(idAdded));
   };
 
   const onClickRemove = () => {
-    dispatch(removeProduct(id));
+    dispatch(removeProduct(idAdded));
   };
 
   return (
