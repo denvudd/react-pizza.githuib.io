@@ -15,17 +15,13 @@ import { productsSelector } from "../redux/products/selectors";
 
 import { useNavigate } from "react-router-dom";
 import qs from "qs";
+import { Helmet } from "react-helmet";
 
-import Sort from "../components/Sort";
-import Categories from "../components/Categories";
-import PizzaItem from "../components/PizzaItem";
-import Pagination from "../components/UI/Pagination/Pagination";
-import Skeleton from "../components/UI/Skeleton";
-import NoProducts from "../components/UI/NoProducts";
+import { Sort, Categories, PizzaItem } from "../components";
+import { Pagination, Skeleton, NoProducts } from "../components/UI";
 
 import { sortList } from "../components/Sort";
 import { categoriesList } from "../components/Categories";
-import { Helmet } from "react-helmet";
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();

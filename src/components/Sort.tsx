@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, memo } from "react";
+import React, { useState, useRef, memo } from "react";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { useDispatch } from "react-redux";
 

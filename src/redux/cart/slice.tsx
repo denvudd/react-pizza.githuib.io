@@ -1,13 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { calcTotalPrice } from "../../utils/calcTotalPrice";
 import { ICartSliceState, ICartItem } from "./types";
-import isEqual from "lodash.isequal";
 
 const initialState: ICartSliceState = {
   totalPrice: 0,
   products: [],
 };
-
 
 const cartSlice = createSlice({
   name: "cart",
@@ -52,7 +50,9 @@ const cartSlice = createSlice({
       state.totalPrice = calcTotalPrice(state.products);
     },
     removeProduct(state, action: PayloadAction<string>) {
-      state.products = state.products.filter((product) => product.idAdded !== action.payload);
+      state.products = state.products.filter(
+        (product) => product.idAdded !== action.payload
+      );
 
       state.totalPrice = calcTotalPrice(state.products);
     },

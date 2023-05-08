@@ -8,11 +8,10 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 
-import ButtonAdd from "../components/UI/ButtonAdd";
+import { ButtonAdd, SingleProductLoader } from "../components/UI";
 import NotFound from "./NotFound";
 
 import { categoriesList } from "../components/Categories";
-import SingleProductLoader from "../components/UI/SingleProductLoader";
 
 interface IProduct {
   id: string;

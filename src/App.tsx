@@ -4,13 +4,17 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import MainLayout from "./layouts/MainLayout";
 
-import ContentLoader from "./components/UI/ContentLoader/ContentLoader";
+import { ContentLoader } from "./components/UI";
 
 import "./scss/app.scss";
 
-const Cart = lazy(() => import("./pages/Cart"));
-const SingleProduct = lazy(() => import("./pages/SingleProduct"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const Cart = lazy(() => import(/* webpackChunkName: "Cart" */ "./pages/Cart"));
+const SingleProduct = lazy(
+  () => import(/* webpackChunkName: "SingleProduct" */ "./pages/SingleProduct")
+);
+const NotFound = lazy(
+  () => import(/* webpackChunkName: "NotFound" */ "./pages/NotFound")
+);
 
 function App() {
   return (

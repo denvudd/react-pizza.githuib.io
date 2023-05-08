@@ -7,7 +7,7 @@ import { cartProductCountSelector } from "../redux/cart/selectors";
 
 import { Link } from "react-router-dom";
 
-import ButtonAdd from "./UI/ButtonAdd";
+import { ButtonAdd } from "./UI/";
 
 interface IPizzaItemProps {
   id: string;

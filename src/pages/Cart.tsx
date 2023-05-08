@@ -7,8 +7,8 @@ import { cartSelector } from "../redux/cart/selectors";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import CartItem from "../components/CartItem";
-import CartEmpty from "../components/UI/CartEmpty";
+import { CartItem } from "../components";
+import { CartEmpty } from "../components/UI";
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
