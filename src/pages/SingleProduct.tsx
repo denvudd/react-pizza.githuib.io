@@ -49,7 +49,7 @@ const SingleProduct: React.FC = () => {
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
 
-  const typeNames = ["тонкое", "традиционное"];
+  const typeNames = ["цукерки", "торти"];
   const addedCount = cartProductCount;
   const ratingStars = "★".repeat(product.rating);
 
@@ -57,7 +57,7 @@ const SingleProduct: React.FC = () => {
     setIsLoading(true);
     try {
       const { data } = await axios.get<IProduct>(
-        `https://6448008250c253374435bb85.mockapi.io/pizzas/${id}`
+        `https://648ebfdb75a96b6644443b60.mockapi.io/sweets/${id}`
       );
       setProduct(data);
     } catch (e) {
@@ -87,7 +87,7 @@ const SingleProduct: React.FC = () => {
 
   if (!product) {
     return (
-      <div className="single-loading">Загрузка, подождите пожалуйста... 🍕</div>
+      <div className="single-loading">Загрузка, подождите пожалуйста...</div>
     );
   }
 
@@ -112,10 +112,10 @@ const SingleProduct: React.FC = () => {
                 Рейтинг: <span>{ratingStars}</span> ({product.rating})
               </div>
               <div className="product-single__category">
-                Категория:{" "}
+                Категорія:{" "}
                 <span>
-                  {categoriesList[product.category] === "Все"
-                    ? "Все пиццы"
+                  {categoriesList[product.category] === "Всі"
+                    ? "Всі солодощі"
                     : categoriesList[product.category]}
                 </span>
               </div>
@@ -139,7 +139,7 @@ const SingleProduct: React.FC = () => {
                     onClick={() => setActiveSize(i)}
                     className={activeSize === i ? "active" : ""}
                   >
-                    {size} см.
+                    {size} кг.
                   </li>
                 ))}
               </ul>
@@ -148,11 +148,11 @@ const SingleProduct: React.FC = () => {
               {product.ingredients}
             </div>
             <div className="product-single__bottom">
-              <div className="product-single__price">от {product.price} ₴</div>
+              <div className="product-single__price">від {product.price} ₴</div>
               <ButtonAdd
                 onClickAdd={onClickAdd}
                 addedCount={addedCount}
-                buttonText="Добавить в корзину"
+                buttonText="Додати в корзину"
               />
             </div>
           </div>

@@ -11,7 +11,8 @@
   }
 
   &__image {
-    width: 260px;
+    max-width: 260px;
+    height: 255px;
   }
 
   &__title {

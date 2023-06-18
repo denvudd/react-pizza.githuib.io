@@ -33,7 +33,7 @@ const PizzaItem: React.FC<IPizzaItemProps> = ({
   const cartProductCount = useSelector(cartProductCountSelector(id));
 
   const addedCount = cartProductCount;
-  const typeNames = ["тонкое", "традиционное"];
+  const typeNames = ["цукерки", "торти"];
 
   const onClickAdd = () => {
     const product: ICartItem = {
@@ -53,12 +53,14 @@ const PizzaItem: React.FC<IPizzaItemProps> = ({
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
         <Link to={`/product/${id}`}>
-          <img
-            className="pizza-block__image"
-            src={imageUrl}
-            alt="Pizza"
-            title={`Пицца ${title}`}
-          />
+          <div className="pizza-block_imageWrapper">
+            <img
+              className="pizza-block__image"
+              src={imageUrl}
+              alt="Pizza"
+              title={`Пицца ${title}`}
+            />
+          </div>
         </Link>
         <Link to={`/product/${id}`}>
           <h4 className="pizza-block__title" title={`Пицца ${title}`}>
@@ -84,17 +86,17 @@ const PizzaItem: React.FC<IPizzaItemProps> = ({
                 onClick={() => setActiveSize(i)}
                 className={activeSize === i ? "active" : ""}
               >
-                {size} см.
+                {size} кг.
               </li>
             ))}
           </ul>
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">от {price} ₴</div>
+          <div className="pizza-block__price">від {price} ₴</div>
           <ButtonAdd
             onClickAdd={onClickAdd}
             addedCount={addedCount}
-            buttonText={"Добавить"}
+            buttonText={"Додати"}
           />
         </div>
       </div>

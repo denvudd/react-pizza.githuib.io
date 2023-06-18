@@ -6,7 +6,7 @@ const initialState: IFilterSliceState = {
   category: 0,
   page: 1,
   sort: {
-    sortName: "популярности (+)",
+    sortName: "популярності (+)",
     sortProperty: SortPropertyEnum.RATING_DESC,
   },
   search: "",
@@ -36,7 +36,7 @@ const filterSlice = createSlice({
         state.search = action.payload.search;
       } else {
         state.sort = {
-          sortName: "популярности (+)",
+          sortName: "популярності (+)",
           sortProperty: SortPropertyEnum.RATING_DESC,
         };
         state.page = 1;

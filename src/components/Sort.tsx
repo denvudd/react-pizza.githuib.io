@@ -14,10 +14,10 @@ interface ISortProps {
 }
 
 export const sortList: ISortList[] = [
-  { sortName: "популярности (+)", sortProperty: SortPropertyEnum.RATING_DESC },
-  { sortName: "популярности (-)", sortProperty: SortPropertyEnum.RATING_ASC },
-  { sortName: "цене (+)", sortProperty: SortPropertyEnum.PRICE_DESC },
-  { sortName: "цене (-)", sortProperty: SortPropertyEnum.PRICE_ASC },
+  { sortName: "популярності (+)", sortProperty: SortPropertyEnum.RATING_DESC },
+  { sortName: "популярності (-)", sortProperty: SortPropertyEnum.RATING_ASC },
+  { sortName: "ціні (+)", sortProperty: SortPropertyEnum.PRICE_DESC },
+  { sortName: "ціні (-)", sortProperty: SortPropertyEnum.PRICE_ASC },
   { sortName: "алфавиту (+)", sortProperty: SortPropertyEnum.TITLE_DESC },
   { sortName: "алфавиту (-)", sortProperty: SortPropertyEnum.TITLE_ASC },
 ];
@@ -55,7 +55,7 @@ const Sort: React.FC<ISortProps> = memo(({ sort }) => {
             fill="#2C2C2C"
           />
         </svg>
-        <b>Сортировка по:</b>
+        <b>Сортування по:</b>
         <span onClick={() => setIsOpen(!isOpen)}>{sortName}</span>
       </div>
       {isOpen && (

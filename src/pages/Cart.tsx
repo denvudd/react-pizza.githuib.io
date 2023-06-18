@@ -27,7 +27,7 @@ const Cart: React.FC = () => {
   return (
     <div className="container container--cart">
       <Helmet>
-        <title>React Pizza: Корзина товаров</title>
+        <title>React Sweets: Корзина товарів</title>
       </Helmet>
 
       {totalPrice === 0 ? (
@@ -105,7 +105,7 @@ const Cart: React.FC = () => {
                 />
               </svg>
 
-              <span>Очистить корзину</span>
+              <span>Очистити корзину</span>
             </button>
           </div>
           <div className="content__items">
@@ -119,10 +119,10 @@ const Cart: React.FC = () => {
           <div className="cart__bottom">
             <div className="cart__bottom-details">
               <span>
-                Всего пицц: <b>{count} шт.</b>
+                Всього солодощів: <b>{count} шт.</b>
               </span>
               <span>
-                Сумма заказа: <b>{totalPrice} ₴</b>
+                Сума замовлення: <b>{totalPrice} ₴</b>
               </span>
             </div>
             <div className="cart__bottom-buttons">
@@ -145,10 +145,10 @@ const Cart: React.FC = () => {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span>Вернуться назад</span>
+                <span>Повернутись назад</span>
               </Link>
               <div className="button pay-btn">
-                <span>Оплатить сейчас</span>
+                <span>Оплатити зараз</span>
               </div>
             </div>
           </div>

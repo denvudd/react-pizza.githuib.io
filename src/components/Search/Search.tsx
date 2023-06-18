@@ -40,7 +40,7 @@ const Search = () => {
         value={value}
         className={styles.input}
         onChange={(e) => onChangeSearch(e)}
-        placeholder="Поиск пиццы..."
+        placeholder="Пошук солодощів..."
       />
       {value && (
         <img

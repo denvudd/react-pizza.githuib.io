@@ -7,7 +7,7 @@ export const fetchProducts = createAsyncThunk(
   async (params: IFetchProductsParams, thunkApi) => {
     const { category, search, order, sortBy, page } = params;
 
-    const apiUrl = "https://6448008250c253374435bb85.mockapi.io/pizzas";
+    const apiUrl = "https://648ebfdb75a96b6644443b60.mockapi.io/sweets";
     const { data } = await axios.get<IProduct[]>(apiUrl, {
       params: {
         page: page,

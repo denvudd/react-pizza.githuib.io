@@ -61,7 +61,7 @@ const CartItem: React.FC<ICartItemProps> = ({
             { disabled: count === 1 }
           )}
           disabled={count === 1}
-          title="Убавить"
+          title="Убавити"
         >
           <svg
             width="10"
@@ -84,7 +84,7 @@ const CartItem: React.FC<ICartItemProps> = ({
         <button
           onClick={onClickIncrement}
           className="button button--outline button--circle cart__item-count-plus"
-          title="Добавить"
+          title="Додати"
         >
           <svg
             width="10"
@@ -111,7 +111,7 @@ const CartItem: React.FC<ICartItemProps> = ({
         <button
           onClick={onClickRemove}
           className="button button--outline button--circle"
-          title="Удалить с корзины"
+          title="Видалити з корзини"
         >
           <svg
             width="10"

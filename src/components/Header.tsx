@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { cartSelector } from "../redux/cart/selectors";
 import { Link, useLocation } from "react-router-dom";
 
-import logo from "../assets/img/pizza-logo.svg";
+import logo from "../assets/img/logo.png";
 import Search from "./Search/Search";
 
 const Header: React.FC = () => {
@@ -19,17 +19,17 @@ const Header: React.FC = () => {
       <div className="container">
         <Link to="/">
           <div className="header__logo">
-            <img width="38" src={logo} alt="Pizza logo" />
+            <img width="55" src={logo} alt="Pizza logo" />
             <div>
-              <h1>React Pizza</h1>
-              <p>самая вкусная пицца во вселенной</p>
+              <h1>React Sweets</h1>
+              <p>самі смачні солодощі</p>
             </div>
           </div>
         </Link>
         {location.pathname !== "/cart" && <Search />}
         <div
           className="header__cart"
-          title={`${count} продуктов на ${totalPrice} ₴`}
+          title={`${count} продуктів на ${totalPrice} ₴`}
         >
           <Link to="/cart" className="button button--cart">
             <span>{totalPrice} ₴</span>

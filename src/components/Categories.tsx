@@ -7,12 +7,12 @@ interface ICategoriesProps {
 }
 
 export const categoriesList: string[] = [
-  "Все",
-  "Мясные",
-  "Вегетарианская",
-  "Гриль",
-  "Острые",
-  "Закрытые",
+  "Всі",
+  "Шоколад",
+  "Карамель",
+  "Сиропи",
+  "Білий шоколад",
+  "Цукерки",
 ];
 
 const Categories: React.FC<ICategoriesProps> = memo(({ categoryId, changeCategory }) => {
