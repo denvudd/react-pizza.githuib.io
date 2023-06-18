@@ -10,7 +10,7 @@ const Skeleton: React.FC = () => {
       viewBox="0 0 280 466"
       backgroundColor="#f3f3f3"
       foregroundColor="#ecebeb"
-      className="pizza-block"
+      className="candy-block"
     >
       <rect x="0" y="280" rx="5" ry="5" width="280" height="27" />
       <rect x="0" y="318" rx="10" ry="10" width="277" height="88" />

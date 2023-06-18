@@ -94,7 +94,7 @@ const SingleProduct: React.FC = () => {
   return (
     <div className="container">
       <Helmet>
-        <title>{`React Pizza: Пицца ${product.title}`}</title>
+        <title>{`React Candy: Пицца ${product.title}`}</title>
       </Helmet>
       {isLoading && !error ? (
         <SingleProductLoader />

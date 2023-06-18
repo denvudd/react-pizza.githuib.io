@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import qs from "qs";
 import { Helmet } from "react-helmet";
 
-import { Sort, Categories, PizzaItem } from "../components";
+import { Sort, Categories, CandyItem } from "../components";
 import { Pagination, Skeleton, NoProducts } from "../components/UI";
 
 import { sortList } from "../components/Sort";
@@ -111,13 +111,13 @@ const Home: React.FC = () => {
 
       return false;
     })
-    .map((product: any) => <PizzaItem key={product.id} {...product} />);
+    .map((product: any) => <CandyItem key={product.id} {...product} />);
   const skeleton = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
 
   return (
     <div className="container">
       <Helmet>
-        <title>{`React Pizza: ${
+        <title>{`React Candy: ${
           categoriesList[category] === "Все"
             ? "Все пиццы"
             : categoriesList[category]

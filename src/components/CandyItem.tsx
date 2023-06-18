@@ -7,9 +7,9 @@ import { cartProductCountSelector } from "../redux/cart/selectors";
 
 import { Link } from "react-router-dom";
 
-import { ButtonAdd } from "./UI/";
+import { ButtonAdd } from "./UI";
 
-interface IPizzaItemProps {
+interface ICandyItemProps {
   id: string;
   title: string;
   imageUrl: string;
@@ -18,7 +18,7 @@ interface IPizzaItemProps {
   types: number[];
 }
 
-const PizzaItem: React.FC<IPizzaItemProps> = ({
+const CandyItem: React.FC<ICandyItemProps> = ({
   id,
   title,
   price,
@@ -50,24 +50,24 @@ const PizzaItem: React.FC<IPizzaItemProps> = ({
   };
 
   return (
-    <div className="pizza-block-wrapper">
-      <div className="pizza-block">
+    <div className="candy-block-wrapper">
+      <div className="candy-block">
         <Link to={`/product/${id}`}>
-          <div className="pizza-block_imageWrapper">
+          <div className="candy-block_imageWrapper">
             <img
-              className="pizza-block__image"
+              className="candy-block__image"
               src={imageUrl}
-              alt="Pizza"
+              alt="Candy"
               title={`Пицца ${title}`}
             />
           </div>
         </Link>
         <Link to={`/product/${id}`}>
-          <h4 className="pizza-block__title" title={`Пицца ${title}`}>
+          <h4 className="candy-block__title" title={`Пицца ${title}`}>
             {title}
           </h4>
         </Link>
-        <div className="pizza-block__selector">
+        <div className="candy-block__selector">
           <ul>
             {types.map((typeId, i) => (
               <li
@@ -91,8 +91,8 @@ const PizzaItem: React.FC<IPizzaItemProps> = ({
             ))}
           </ul>
         </div>
-        <div className="pizza-block__bottom">
-          <div className="pizza-block__price">від {price} ₴</div>
+        <div className="candy-block__bottom">
+          <div className="candy-block__price">від {price} ₴</div>
           <ButtonAdd
             onClickAdd={onClickAdd}
             addedCount={addedCount}
@@ -104,4 +104,4 @@ const PizzaItem: React.FC<IPizzaItemProps> = ({
   );
 };
 
-export default PizzaItem;
+export default CandyItem;
